@@ -1,0 +1,41 @@
+/* style button */
+#login__btn {
+	background-color: blue;
+	width: 100%;
+	color: orange;
+	padding: 15px;
+	margin: 10px 0;
+	border: none;
+	cursor: pointer;
+}
+
+/* login form */
+
+#login__form {
+	border: 3px solid black;
+    border-radius: 15px;
+	height: 300px;
+	width: 300px;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 20%;
+	left: 38%;
+}
+
+.login__container > input {
+	width: 100%;
+	margin: 8px 0;
+	padding: 12px 20px;
+	display: inline-block;
+	border: 2px solid green;
+	box-sizing: border-box;
+}
+
+.login__container > h1 {
+	display: flex;
+	justify-content: center;
+}
+
