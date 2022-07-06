@@ -1,0 +1,29 @@
+#search {
+	display: flex;
+	justify-content: center;
+	margin-top: 100px;
+}
+#search > input {
+	width: 40%;
+	margin: 8px 0;
+	padding: 12px 20px;
+	display: inline-block;
+	border: 2px solid green;
+	box-sizing: border-box;
+	margin-top: 80px;
+}
+
+#search__btn {
+	background-color: rgb(13, 60, 216);
+	color: white;
+	text-transform: uppercase;
+	width: 40%;
+	color: orange;
+	padding: 8px;
+	max-width: 10px 0;
+	border: none;
+	cursor: pointer;
+	position: absolute;
+	left: 30%;
+	border-radius: 10px;
+}

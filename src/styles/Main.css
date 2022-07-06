@@ -1,0 +1,28 @@
+#home {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	display: none;
+	flex-wrap: wrap;
+}
+
+.home__users {
+	display: flex;
+	height: 150px;
+	width: 40%;
+	border: 2px solid rgb(54, 34, 34);
+	margin-top: 100px;
+	padding: 35px;
+	border-radius: 5px;
+}
+
+.home__right > img {
+	height: 70px;
+	width: 70px;
+	border-radius: 50%;
+}
+
+.home__right {
+	margin-left: 10px;
+}
