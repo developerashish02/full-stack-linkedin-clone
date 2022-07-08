@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/login.css";
 import "../styles/Form.css";
 import { useState } from "react";
+import validator from "validator";
 
 function Form() {
 	// get data
@@ -21,7 +22,11 @@ function Form() {
 	// handle click
 	const handleClick = (e) => {
 		e.preventDefault();
-
+		// validate email
+		if (!validator.isEmail(user.email)) {
+			alert("Enter valid Email!");
+			return;
+		}
 		// checking valide credential
 		if (
 			user.name === "" ||
@@ -45,7 +50,6 @@ function Form() {
 		});
 	};
 
-	
 	// handle delete feture
 	const handleDelete = (email_id) => {
 		const newNotes = getData.filter((obj) => {
@@ -55,7 +59,15 @@ function Form() {
 		setData(newNotes);
 	};
 
-	// handle edite notes 
+	// handle edite notes
+	const editeNotes = (currentDetails) => {
+		setuser({
+			name: currentDetails.name,
+			email: currentDetails.email,
+			address: currentDetails.address,
+			phoneNumber: currentDetails.phoneNumber,
+		});
+	};
 
 	return (
 		<div id="form" style={style}>
@@ -124,7 +136,12 @@ function Form() {
 										handleDelete(item.email);
 									}}
 								></i>
-								<i className="fa-solid fa-pen-to-square"></i>
+								<i
+									className="fa-solid fa-pen-to-square"
+									onClick={() => {
+										editeNotes(item);
+									}}
+								></i>
 							</div>
 						</div>
 					);
