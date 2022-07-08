@@ -45,9 +45,17 @@ function Form() {
 		});
 	};
 
+	
 	// handle delete feture
+	const handleDelete = (email_id) => {
+		const newNotes = getData.filter((obj) => {
+			return obj.email !== email_id;
+		});
 
-	const handleDelete = (email__id) => {};
+		setData(newNotes);
+	};
+
+	// handle edite notes 
 
 	return (
 		<div id="form" style={style}>
@@ -113,7 +121,7 @@ function Form() {
 								<i
 									className="fa-solid fa-circle-minus"
 									onClick={() => {
-										handleDelete(item);
+										handleDelete(item.email);
 									}}
 								></i>
 								<i className="fa-solid fa-pen-to-square"></i>
