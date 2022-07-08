@@ -57,6 +57,8 @@ function Form() {
 		});
 
 		setData(newNotes);
+
+		alert("Delete User Success !");
 	};
 
 	// handle edite notes

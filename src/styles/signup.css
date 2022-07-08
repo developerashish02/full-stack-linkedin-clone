@@ -1,0 +1,38 @@
+form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#signup__form {
+	height: 300px;
+	width: 300px;
+	border: 2px solid rgb(49, 24, 24);
+	position: absolute;
+	top: 20%;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#signup__form > input {
+	width: 70%;
+	margin: 8px 0;
+	padding: 12px 20px;
+	display: inline-block;
+	border: 2px solid green;
+	box-sizing: border-box;
+	margin-top: 120px;
+}
+
+.login__btn {
+	background-color: blue;
+	width: 70%;
+	color: orange;
+	padding: 15px;
+	border: none;
+	cursor: pointer;
+	margin-top: 10px;
+}

@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/login.css";
 import Search from "./components/Search";
 import Form from "./components/Form";
+import { SignUp } from "./components/SignUp";
 function App() {
 	// user details
 	const userData = [
@@ -40,6 +41,11 @@ function App() {
 						element={<Search userData={userData} key={userData.key} />}
 					/>
 					<Route exact path="/form" element={<Form />} />
+					<Route
+						exact
+						path="/signup"
+						element={<SignUp userData={userData} />}
+					/>
 				</Routes>
 			</BrowserRouter>
 		</div>

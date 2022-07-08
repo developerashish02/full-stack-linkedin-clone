@@ -28,6 +28,7 @@ const Login = (props) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (email === "") {
+			navigate("/from");
 			alert("email not should be empty");
 			return;
 		}
@@ -35,10 +36,11 @@ const Login = (props) => {
 		let checkExist = userData.find((e) => e.email === email);
 		console.log(checkExist);
 		if (!checkExist) {
-			navigate("/main");
+			alert("This email is not register sing in first ");
+			navigate("/signup");
 			return;
 		} else {
-			alert("This email is alredy exist");
+			navigate("/form");
 		}
 	};
 	// handle image
