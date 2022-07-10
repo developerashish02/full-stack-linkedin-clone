@@ -7,6 +7,8 @@ import validator from "validator";
 function Form() {
 	// get data
 	const [getData, setData] = useState([]);
+	const [mode, setMode] = useState("submit");
+	const [oldData, newData] = useState("");
 	const [user, setuser] = useState({
 		name: "",
 		email: "",
@@ -22,25 +24,47 @@ function Form() {
 	// handle click
 	const handleClick = (e) => {
 		e.preventDefault();
-		// validate email
-		if (!validator.isEmail(user.email)) {
-			alert("Enter valid Email!");
-			return;
-		}
-		// checking valide credential
-		if (
-			user.name === "" ||
-			user.email === "" ||
-			user.phoneNumber === "" ||
-			user.phoneNumber === ""
-		) {
-			alert("The input fields not shoud be empty ");
-			return;
-			// create user
-		} else {
-			setData((getData) => [...getData, user]);
+
+		if (mode === "submit") {
+			// validate email
+			if (!validator.isEmail(user.email)) {
+				alert("Enter valid Email!");
+				return;
+			}
+			// checking valide credential
+			if (
+				user.name === "" ||
+				user.email === "" ||
+				user.phoneNumber === "" ||
+				user.phoneNumber === ""
+			) {
+				alert("The input fields not shoud be empty ");
+				return;
+				// create user
+			} else {
+				setData((getData) => [...getData, user]);
+			}
 		}
 
+		// edite mode
+		else {
+			let newNote = getData;
+			for (let index = 0; index < getData.length; index++) {
+				const element = newNote[index];
+
+				if (element.email === oldData.email) {
+					newNote[index].name = user.name;
+					newNote[index].email = user.email;
+					newNote[index].address = user.address;
+					newNote[index].phoneNumber = user.phoneNumber;
+					break;
+				}
+			}
+
+			setData(newNote);
+			setMode("submit");
+			alert("Note updated Success");
+		}
 		// reset the all values
 		setuser({
 			name: "",
@@ -69,6 +93,9 @@ function Form() {
 			address: currentDetails.address,
 			phoneNumber: currentDetails.phoneNumber,
 		});
+
+		setMode("edite");
+		newData(currentDetails);
 	};
 
 	return (
