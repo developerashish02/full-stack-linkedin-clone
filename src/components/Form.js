@@ -61,6 +61,7 @@ function Form() {
 				}
 			}
 
+			// set updated note
 			setData(newNote);
 			setMode("submit");
 			alert("Note updated successfully 😊");
