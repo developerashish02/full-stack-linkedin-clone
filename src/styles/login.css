@@ -12,7 +12,7 @@
 /* login form */
 
 #login__form {
-	border: 3px solid black;
+	/* border: 3px solid black; */
 	border-radius: 15px;
 	height: 300px;
 	width: 300px;

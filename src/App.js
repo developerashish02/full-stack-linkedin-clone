@@ -6,6 +6,7 @@ import "./styles/login.css";
 import Search from "./components/Search";
 import Form from "./components/Form";
 import { SignUp } from "./components/SignUp";
+import Navbar from "./components/Navbar";
 function App() {
 	// user details
 	const userData = [
@@ -32,6 +33,7 @@ function App() {
 	return (
 		<div className="App">
 			<BrowserRouter>
+				<Navbar />
 				<Routes>
 					<Route exact path="/" element={<Login userData={userData} />} />
 					<Route exact path="/main" element={<Main />} />

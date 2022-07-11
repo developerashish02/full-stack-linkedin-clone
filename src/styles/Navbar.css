@@ -1,0 +1,34 @@
+#Navbar {
+	display: flex;
+	background-color: #ffffffdd;
+}
+
+.Navbar__img {
+	height: 3.5rem;
+	width: 100%;
+}
+
+.Navbar__img > img {
+	height: 100%;
+	width: auto;
+	margin-left: 20px;
+}
+
+.Navbar__login {
+	position: absolute;
+	left: 9%;
+}
+
+.Navbar__login > ul {
+	list-style: none;
+	display: flex;
+}
+
+.navbar__list {
+	margin-top: 15px;
+	margin-right: 10px;
+	font-weight: bold;
+	cursor: pointer;
+	text-transform: uppercase;
+	list-style: none;
+}

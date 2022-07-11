@@ -59,7 +59,7 @@ export const SignUp = (props) => {
 	return (
 		<div className="container">
 			<form>
-				<h1 style={{ marginTop: "150px" }}>Sign Up </h1>
+				<h1 style={{ marginTop: "100px" }}>Sign Up </h1>
 				<div id="signup__form">
 					<input
 						type="text"
