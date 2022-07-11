@@ -5,7 +5,6 @@ import { useState } from "react";
 function Search(props) {
 	const [seach, setseach] = useState("");
 	const [getUser, setUser] = useState({});
-	let res;
 	// user details
 	const userData = [
 		{

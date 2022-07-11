@@ -63,7 +63,7 @@ function Form() {
 
 			setData(newNote);
 			setMode("submit");
-			alert("Note updated Success");
+			alert("Note updated successfully 😊");
 		}
 		// reset the all values
 		setuser({

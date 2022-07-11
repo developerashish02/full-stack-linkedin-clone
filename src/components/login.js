@@ -22,7 +22,6 @@ const Login = (props) => {
 		},
 	];
 	const [email, setEmail] = useState("");
-	console.log(userData);
 	let navigate = useNavigate();
 	// handle submit
 	const handleSubmit = (e) => {
