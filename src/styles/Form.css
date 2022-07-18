@@ -19,3 +19,7 @@
 	margin-right: 10px;
 	cursor: pointer;
 }
+
+#home {
+	border: 2px solid red;
+}

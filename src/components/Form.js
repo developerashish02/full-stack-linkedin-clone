@@ -1,20 +1,46 @@
 import React from "react";
 import "../styles/login.css";
 import "../styles/Form.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import validator from "validator";
+import { v4 as uuidv4 } from "uuid";
+import api from "../api/user";
+import "../styles/Main.css";
 
 function Form() {
-	// get data
-	const [getData, setData] = useState([]);
 	const [mode, setMode] = useState("submit");
-	const [oldData, newData] = useState("");
+	const [oldData, setoldData] = useState("");
 	const [user, setuser] = useState({
 		name: "",
 		email: "",
 		address: "",
-		phoneNumber: 1234567890,
+		phoneNumber: "",
 	});
+
+	let [item, setItem] = useState([]);
+	// fetching all users
+	const getingAllusers = async () => {
+		const response = await api.get("/users");
+		return response.data;
+	};
+
+	// handle delete
+	const handleDelete = async (id) => {
+		const response = await api.delete(`/users/${id}`);
+		item = item.filter((item) => item.id !== id);
+		setItem(item);
+	};
+
+	// fetch all users
+	useEffect(() => {
+		const getAllUser = async () => {
+			const allUser = await getingAllusers();
+			if (allUser) {
+				setItem(allUser);
+			}
+		};
+		getAllUser();
+	}, []);
 
 	// handle change
 	const handleChange = (event) => {
@@ -22,9 +48,8 @@ function Form() {
 	};
 
 	// handle click
-	const handleClick = (e) => {
+	const handleClick = async (e) => {
 		e.preventDefault();
-
 		if (mode === "submit") {
 			// validate email
 			if (!validator.isEmail(user.email)) {
@@ -42,17 +67,23 @@ function Form() {
 				return;
 				// create user
 			} else {
-				setData((getData) => [...getData, user]);
+				// create user with id
+				const userWithId = {
+					...user,
+					id: uuidv4(),
+				};
+
+				const response = await api.post("/users", userWithId);
+				// setuser([...user, response.data]);
+				setItem([...item, response.data]);
 			}
 		}
-
 		// edite mode
 		else {
-			let newNote = getData;
-			for (let index = 0; index < getData.length; index++) {
-				const element = newNote[index];
-
-				if (element.email === oldData.email) {
+			let newNote = item;
+			for (let index = 0; index < item.length; index++) {
+				let element = newNote[index];
+				if (element.id === oldData.id) {
 					newNote[index].name = user.name;
 					newNote[index].email = user.email;
 					newNote[index].address = user.address;
@@ -61,10 +92,16 @@ function Form() {
 				}
 			}
 
-			// set updated note
-			setData(newNote);
+			const res = newNote.find((item) => item.id === oldData.id);
+			const response = await api.put(`/users/${res.id}`, res);
+			const { name, email, id } = response.data;
+			setItem(
+				item.map((item) => {
+					return item.id === id ? { ...response.data } : item;
+				})
+			);
+			// setting mode to submit 
 			setMode("submit");
-			alert("Note updated successfully 😊");
 		}
 		// reset the all values
 		setuser({
@@ -75,109 +112,99 @@ function Form() {
 		});
 	};
 
-	// handle delete feture
-	const handleDelete = (email_id) => {
-		const newNotes = getData.filter((obj) => {
-			return obj.email !== email_id;
-		});
-
-		setData(newNotes);
-
-		alert("Delete User Success !");
-	};
-
 	// handle edite notes
-	const editeNotes = (currentDetails) => {
+	const editeNotes = (editeObj) => {
 		setuser({
-			name: currentDetails.name,
-			email: currentDetails.email,
-			address: currentDetails.address,
-			phoneNumber: currentDetails.phoneNumber,
+			name: editeObj.name,
+			email: editeObj.email,
+			address: editeObj.address,
+			phoneNumber: editeObj.phoneNumber,
 		});
 
 		setMode("edite");
-		newData(currentDetails);
+		setoldData(editeObj);
 	};
 
 	return (
-		<div id="form" style={style}>
-			<h2 style={{ margin: "auto" }}>User Details</h2>
-			<form id="login__from">
-				<div className="login__container">
-					<input
-						type="text"
-						placeholder="User Name"
-						onChange={handleChange}
-						name="name"
-						value={user.name}
-						required
-					/>
-					<input
-						type="email"
-						placeholder="User Email"
-						onChange={handleChange}
-						name="email"
-						value={user.email}
-						required
-					/>
-					<input
-						type="text"
-						placeholder="User Address"
-						onChange={handleChange}
-						name="address"
-						value={user.address}
-						required
-					/>
+		<>
+			<div id="form" style={style}>
+				<h2 style={{ margin: "auto" }}>User Details</h2>
+				<form id="login__from">
+					<div className="login__container">
+						<input
+							type="text"
+							placeholder="User Name"
+							onChange={handleChange}
+							name="name"
+							value={user.name}
+							required
+						/>
+						<input
+							type="email"
+							placeholder="User Email"
+							onChange={handleChange}
+							name="email"
+							value={user.email}
+							required
+						/>
+						<input
+							type="text"
+							placeholder="User Address"
+							onChange={handleChange}
+							name="address"
+							value={user.address}
+							required
+						/>
 
-					<input
-						type="number"
-						placeholder="User Number"
-						name="phoneNumber"
-						onChange={handleChange}
-						value={user.phoneNumber}
-					/>
+						<input
+							type="number"
+							placeholder="User Number"
+							name="phoneNumber"
+							onChange={handleChange}
+							value={user.phoneNumber}
+						/>
+					</div>
+
+					<button id="login__btn" type="submit" onClick={handleClick}>
+						Submit
+					</button>
+				</form>
+
+				<div className="home">
+					<div className="form__user">
+						{item.map((item) => {
+							return (
+								<div className="card" key={item.id}>
+									<div className="container">
+										<h4>
+											<b>{item.name}</b>
+										</h4>
+										<p>{item.email}</p>
+										<p>{item.phoneNumber}</p>
+										<p>{item.address}</p>
+									</div>
+
+									<div className="form__buttons">
+										<i
+											className="fa-solid fa-circle-minus"
+											onClick={() => {
+												handleDelete(item.id);
+											}}
+										></i>
+										<i
+											className="fa-solid fa-pen-to-square"
+											onClick={() => {
+												editeNotes(item);
+											}}
+										></i>
+									</div>
+								</div>
+							);
+						})}
+					</div>
 				</div>
-
-				<button id="login__btn" type="submit" onClick={handleClick}>
-					Submit
-				</button>
-			</form>
-			{/* render all user */}
-
-			<div className="form__user">
-				{getData.map((item) => {
-					return (
-						<div className="card" key={item.email}>
-							<div className="container">
-								<h4>
-									<b>{item.name}</b>
-								</h4>
-								<p>{item.email}</p>
-
-								<span>{item.address}</span>
-
-								<p>{item.phoneNumber}</p>
-							</div>
-
-							<div className="form__buttons">
-								<i
-									className="fa-solid fa-circle-minus"
-									onClick={() => {
-										handleDelete(item.email);
-									}}
-								></i>
-								<i
-									className="fa-solid fa-pen-to-square"
-									onClick={() => {
-										editeNotes(item);
-									}}
-								></i>
-							</div>
-						</div>
-					);
-				})}
 			</div>
-		</div>
+		</>
 	);
 }
 

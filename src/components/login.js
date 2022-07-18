@@ -1,51 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/login.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
-const Login = (props) => {
-	const userData = [
-		{
-			email: "ashugaikwad11@gmail.com",
-			password: "ashish1",
-		},
-		{
-			email: "rohitgaikwad11@gmail.com",
-			password: "rohit1",
-		},
-		{
-			email: "rahulgaikwad11@gmail.com",
-			password: "rahul1",
-		},
-	];
+import api from "../api/user";
+const Login = () => {
+	const [userData, setUserData] = useState("");
+	const getUserData = async () => {
+		const response = await api.get("/users");
+		return response.data;
+	};
 
 	// credentail
 	const [credential, setcredential] = useState({
 		email: "",
-		password: "",
 	});
+
+	useEffect(() => {
+		const userVerifield = async () => {
+			const response = await getUserData();
+			if (response) {
+				setUserData(response);
+			}
+		};
+
+		userVerifield();
+	}, []);
 
 	// Navigate to signup page if user is not registed
 	let navigate = useNavigate();
 	// handle submit
 	const handleSubmit = (e) => {
+		console.log("Credential", credential);
+		console.log(userData);
 		e.preventDefault();
-		console.log(credential);
-
-		setcredential({
-			email: "",
-			password: "",
-		});
-
 		for (let index = 0; index < userData.length; index++) {
-			if (
-				userData[index].email === credential.email &&
-				userData[index].password === credential.password
-			) {
+			if (userData[index].email === credential.email) {
 				navigate("/form");
 				return;
 			} else {
 				alert("Pls Enter Valide Credential");
+				setcredential({
+					email: "",
+				});
 				return;
 			}
 		}
@@ -68,15 +64,6 @@ const Login = (props) => {
 						name="email"
 						value={credential.email}
 						onChange={onChnage}
-					/>
-					<input
-						type="password"
-						placeholder="Password"
-						required
-						id="password"
-						name="password"
-						onChange={onChnage}
-						value={credential.password}
 					/>
 					<button id="login__btn" type="submit" onClick={handleSubmit}>
 						Login
